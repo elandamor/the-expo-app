@@ -1,34 +1,64 @@
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import * as React from 'react';
-import { ColorSchemeName } from 'react-native';
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import * as React from "react";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import {
+  HomeScreen,
+  LandingScreen,
+  LoginScreen,
+  RegisterScreen,
+} from "../screens";
 
-import NotFoundScreen from '../screens/NotFoundScreen';
-import { RootStackParamList } from '../types';
-import BottomTabNavigator from './BottomTabNavigator';
-import LinkingConfiguration from './LinkingConfiguration';
+export type PublicStackParamsList = {
+  Home: undefined;
+  Landing: undefined;
+  Login: undefined;
+  Register: undefined;
+};
 
-// If you are not familiar with React Navigation, we recommend going through the
-// "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+const PublicStack = createStackNavigator<PublicStackParamsList>();
+
+const PublicNavigator = () => {
   return (
-    <NavigationContainer
-      linking={LinkingConfiguration}
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <RootNavigator />
-    </NavigationContainer>
+    <PublicStack.Navigator screenOptions={{ headerShown: false }}>
+      <PublicStack.Screen name="Landing" component={LandingScreen} />
+      <PublicStack.Screen name="Register" component={RegisterScreen} />
+      <PublicStack.Screen name="Login" component={LoginScreen} />
+      <PublicStack.Screen name="Home" component={HomeScreen} />
+    </PublicStack.Navigator>
   );
-}
+};
 
-// A root stack navigator is often used for displaying modals on top of all other content
-// Read more here: https://reactnavigation.org/docs/modal
-const Stack = createStackNavigator<RootStackParamList>();
+export type PrivateStackParamsList = {
+  Home: undefined;
+};
 
-function RootNavigator() {
+const PrivateStack = createStackNavigator<PrivateStackParamsList>();
+
+const PrivateNavigator = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Root" component={BottomTabNavigator} />
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-    </Stack.Navigator>
+    <PrivateStack.Navigator screenOptions={{ headerShown: false }}>
+      <PrivateStack.Screen name="Home" component={HomeScreen} />
+    </PrivateStack.Navigator>
+  );
+};
+
+const RootNavigator = () => {
+  const { isAuthenticated } = { isAuthenticated: false };
+
+  if (!isAuthenticated) {
+    return <PublicNavigator />;
+  }
+
+  return <PrivateNavigator />;
+};
+
+export default function Navigation() {
+  return (
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <RootNavigator />
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }
