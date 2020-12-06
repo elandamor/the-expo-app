@@ -2,12 +2,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import {
-  HomeScreen,
-  LandingScreen,
-  LoginScreen,
-  RegisterScreen,
-} from "../screens";
+import { LandingScreen, LoginScreen, RegisterScreen } from "../screens";
+import BottomTabNavigator from "./BottomTabNavigator";
 
 export type PublicStackParamsList = {
   Home: undefined;
@@ -24,7 +20,7 @@ const PublicNavigator = () => {
       <PublicStack.Screen name="Landing" component={LandingScreen} />
       <PublicStack.Screen name="Register" component={RegisterScreen} />
       <PublicStack.Screen name="Login" component={LoginScreen} />
-      <PublicStack.Screen name="Home" component={HomeScreen} />
+      <PublicStack.Screen name="Home" component={BottomTabNavigator} />
     </PublicStack.Navigator>
   );
 };
@@ -38,7 +34,7 @@ const PrivateStack = createStackNavigator<PrivateStackParamsList>();
 const PrivateNavigator = () => {
   return (
     <PrivateStack.Navigator screenOptions={{ headerShown: false }}>
-      <PrivateStack.Screen name="Home" component={HomeScreen} />
+      <PrivateStack.Screen name="Home" component={BottomTabNavigator} />
     </PrivateStack.Navigator>
   );
 };

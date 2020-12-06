@@ -14,6 +14,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface RNScrollViewProps {
+  hasBottomSafeAreaInset?: boolean;
   enablePullToRefresh?: boolean;
   refreshing?: boolean;
   styles?: {
@@ -25,6 +26,7 @@ interface RNScrollViewProps {
 }
 
 const RNScrollView: FC<RNScrollViewProps> = ({
+  hasBottomSafeAreaInset,
   enablePullToRefresh,
   children,
   refreshing: controlledRefreshing,
@@ -78,10 +80,11 @@ const RNScrollView: FC<RNScrollViewProps> = ({
           styles.contentContainerStyle,
           {
             // TODO: Resolve content jump
-            paddingBottom: !keyboardOpen
-              ? (styles.contentContainerStyle?.valueOf()["padding"] || 0) +
-                bottom
-              : 0,
+            paddingBottom:
+              hasBottomSafeAreaInset && !keyboardOpen
+                ? (styles.contentContainerStyle?.valueOf()["padding"] || 0) +
+                  bottom
+                : 0,
           },
         ]}
         {...(enablePullToRefresh && {
@@ -105,6 +108,7 @@ const RNScrollView: FC<RNScrollViewProps> = ({
 };
 
 RNScrollView.defaultProps = {
+  hasBottomSafeAreaInset: false,
   enablePullToRefresh: false,
   refreshing: false,
   styles: {
