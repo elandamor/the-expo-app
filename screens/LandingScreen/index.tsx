@@ -1,8 +1,7 @@
 import { StackNavigationProp } from "@react-navigation/stack";
 import Constants from "expo-constants";
 import React, { FC } from "react";
-import { Dimensions, StyleSheet, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { Dimensions, Pressable, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PublicStackParamsList } from "../../navigation";
 
@@ -66,14 +65,14 @@ const LandingScreen: FC<LandingScreenProps> = ({ navigation }) => {
             paddingBottom: 16 + bottom,
           }}
         >
-          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+          <Pressable onPress={() => navigation.navigate("Login")}>
             <View style={styles.button} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+          </Pressable>
+          <Pressable onPress={() => navigation.navigate("Register")}>
             <View
               style={[styles.button, { backgroundColor: "#FFF", marginTop: 8 }]}
             />
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </View>
     </View>

@@ -1,8 +1,14 @@
 import { StackNavigationProp } from "@react-navigation/stack";
 import Constants from "expo-constants";
 import React, { FC, useState } from "react";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
-import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
+import {
+  Dimensions,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import { RNScrollView } from "../../components";
 import { PublicStackParamsList } from "../../navigation";
 
@@ -86,16 +92,16 @@ const LoginScreen: FC<LoginScreenProps> = ({ navigation }) => {
               />
             ))}
           </View>
-          <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+          <Pressable onPress={() => navigation.navigate("Home")}>
             <View style={styles.button} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+          </Pressable>
+          <Pressable onPress={() => navigation.navigate("Register")}>
             <View
               style={[styles.button, { backgroundColor: "#FFF", marginTop: 8 }]}
             >
               <Text>Don't have an acccount? Register</Text>
             </View>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </View>
     </RNScrollView>
