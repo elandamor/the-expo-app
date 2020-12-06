@@ -37,7 +37,6 @@ const RNScrollView: FC<RNScrollViewProps> = ({
 
   useEffect(() => {
     if (controlledRefreshing != undefined) {
-      console.log("setRefreshing...");
       setRefreshing(!!controlledRefreshing);
     }
   }, [controlledRefreshing]);
@@ -88,7 +87,7 @@ const RNScrollView: FC<RNScrollViewProps> = ({
         {...(enablePullToRefresh && {
           refreshControl: (
             <RefreshControl
-              refreshing={refreshing}
+              refreshing={!!refreshing}
               onRefresh={() => {
                 if (onRefresh) {
                   setRefreshing(true);
