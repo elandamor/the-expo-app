@@ -1,7 +1,7 @@
 import Constants from "expo-constants";
 import React, { FC, useState } from "react";
-import { Dimensions, StyleSheet, TextInput, View } from "react-native";
-import { RNScrollView } from "../../components";
+import { Dimensions, StyleSheet, View } from "react-native";
+import { RNScrollView, RNTextInput } from "../../components";
 
 const wait = (timeout: number) => {
   return new Promise((resolve) => {
@@ -52,17 +52,7 @@ const HomeScreen: FC<HomeScreenProps> = () => {
         }}
       >
         {[...new Array(10)].map((_, index) => (
-          <TextInput
-            key={index}
-            style={{
-              height: 56,
-              borderColor: "#DDD",
-              borderRadius: 40,
-              borderWidth: 1,
-              marginBottom: 16,
-              paddingHorizontal: 16,
-            }}
-          />
+          <RNTextInput key={index} />
         ))}
       </RNScrollView>
     </View>

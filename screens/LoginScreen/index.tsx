@@ -1,15 +1,8 @@
 import { StackNavigationProp } from "@react-navigation/stack";
 import Constants from "expo-constants";
 import React, { FC, useState } from "react";
-import {
-  Dimensions,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
-import { RNScrollView } from "../../components";
+import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
+import { RNScrollView, RNTextInput } from "../../components";
 import { PublicStackParamsList } from "../../navigation";
 
 const { width } = Dimensions.get("screen");
@@ -77,19 +70,7 @@ const LoginScreen: FC<LoginScreenProps> = ({ navigation }) => {
         >
           <View style={{ marginVertical: 16 }}>
             {[...new Array(2)].map((_, index) => (
-              <TextInput
-                key={index}
-                style={{
-                  height: 56,
-                  borderColor: "#DDD",
-                  borderRadius: 40,
-                  borderWidth: 1,
-                  marginBottom: 16,
-                  paddingHorizontal: 16,
-                }}
-                onChangeText={(text) => onChangeText(text)}
-                value={value}
-              />
+              <RNTextInput key={index} />
             ))}
           </View>
           <Pressable onPress={() => navigation.navigate("Home")}>
