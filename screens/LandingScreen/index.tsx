@@ -17,8 +17,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#DDD",
     borderBottomRightRadius: 44,
-    borderTopRightRadius: 44,
-    borderTopLeftRadius: 44,
     flex: 1,
     justifyContent: "center",
     padding: 40,
@@ -72,7 +70,9 @@ const LandingScreen: FC<LandingScreenProps> = ({ navigation }) => {
             <View style={styles.button} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-            <View style={[styles.button, { backgroundColor: "#FFF" }]} />
+            <View
+              style={[styles.button, { backgroundColor: "#FFF", marginTop: 8 }]}
+            />
           </TouchableOpacity>
         </View>
       </View>

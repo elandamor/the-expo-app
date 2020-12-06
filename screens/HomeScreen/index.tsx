@@ -1,16 +1,7 @@
 import Constants from "expo-constants";
-import React, { FC, useCallback, useState } from "react";
-import {
-  Dimensions,
-  KeyboardAvoidingView,
-  Platform,
-  RefreshControl,
-  ScrollView,
-  StyleSheet,
-  TextInput,
-  View,
-} from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import React, { FC, useState } from "react";
+import { Dimensions, StyleSheet, TextInput, View } from "react-native";
+import { RNScrollView } from "../../components";
 
 const wait = (timeout: number) => {
   return new Promise((resolve) => {
@@ -36,14 +27,7 @@ const styles = StyleSheet.create({
 interface HomeScreenProps {}
 
 const HomeScreen: FC<HomeScreenProps> = () => {
-  const { bottom } = useSafeAreaInsets();
   const [refreshing, setRefreshing] = useState(false);
-
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-
-    wait(2000).then(() => setRefreshing(false));
-  }, []);
 
   return (
     <View style={styles.container}>
@@ -54,48 +38,33 @@ const HomeScreen: FC<HomeScreenProps> = () => {
           }}
         />
       </View>
-      <KeyboardAvoidingView
-        behavior={Platform.OS == "ios" ? "padding" : "height"}
-        style={styles.container}
+      <RNScrollView
+        enablePullToRefresh
+        refreshing={refreshing}
+        styles={{
+          contentContainerStyle: { padding: 16 },
+          style: { borderTopLeftRadius: 44 },
+          underlayColor: "#DDD",
+        }}
+        onRefresh={() => {
+          setRefreshing(true);
+          wait(2000).then(() => setRefreshing(false));
+        }}
       >
-        <View style={{ flex: 1 }}>
-          <View
+        {[...new Array(10)].map((_, index) => (
+          <TextInput
+            key={index}
             style={{
-              ...StyleSheet.absoluteFillObject,
-              backgroundColor: "#DDD",
+              height: 56,
+              borderColor: "#DDD",
+              borderRadius: 40,
+              borderWidth: 1,
+              marginBottom: 16,
+              paddingHorizontal: 16,
             }}
           />
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            style={{
-              backgroundColor: "#FFF",
-              borderTopLeftRadius: 44,
-            }}
-            contentContainerStyle={{
-              flexGrow: 1,
-              padding: 16,
-              paddingBottom: 16 + bottom,
-            }}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }
-          >
-            {[...new Array(0)].map((_, index) => (
-              <TextInput
-                key={index}
-                style={{
-                  height: 56,
-                  borderColor: "#DDD",
-                  borderRadius: 40,
-                  borderWidth: 1,
-                  marginBottom: 16,
-                  paddingHorizontal: 16,
-                }}
-              />
-            ))}
-          </ScrollView>
-        </View>
-      </KeyboardAvoidingView>
+        ))}
+      </RNScrollView>
     </View>
   );
 };
