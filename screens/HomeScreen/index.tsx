@@ -1,13 +1,7 @@
 import Constants from "expo-constants";
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
-import { RNScrollView, RNTextInput } from "../../components";
-
-const wait = (timeout: number) => {
-  return new Promise((resolve) => {
-    setTimeout(resolve, timeout);
-  });
-};
+import { Checkout, RNScrollView } from "../../components";
 
 const { width } = Dimensions.get("screen");
 
@@ -27,7 +21,7 @@ const styles = StyleSheet.create({
 interface HomeScreenProps {}
 
 const HomeScreen: FC<HomeScreenProps> = () => {
-  const [refreshing, setRefreshing] = useState(false);
+  const { user } = { user: { email: "thando@sovtech.com" } }; // useAuthentication()
 
   return (
     <View style={styles.container}>
@@ -39,21 +33,23 @@ const HomeScreen: FC<HomeScreenProps> = () => {
         />
       </View>
       <RNScrollView
-        enablePullToRefresh
-        refreshing={refreshing}
         styles={{
-          contentContainerStyle: { padding: 16 },
+          contentContainerStyle: {
+            padding: 16,
+          },
           style: { borderTopLeftRadius: 44 },
           underlayColor: "#DDD",
         }}
-        onRefresh={() => {
-          setRefreshing(true);
-          wait(2000).then(() => setRefreshing(false));
-        }}
       >
-        {[...new Array(10)].map((_, index) => (
-          <RNTextInput key={index} />
-        ))}
+        <Checkout
+          paystackKey="pk_test_3a958a8fabb85177b3a505f0d44466456cedaa46"
+          amount={500}
+          billingEmail="thando@sovtech.com"
+          billingName="the-expo-app"
+          onSuccess={(callback: object) => {
+            console.log({ callback });
+          }}
+        />
       </RNScrollView>
     </View>
   );
