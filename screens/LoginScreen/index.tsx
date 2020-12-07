@@ -1,8 +1,8 @@
 import { StackNavigationProp } from "@react-navigation/stack";
 import Constants from "expo-constants";
 import React, { FC, useState } from "react";
-import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
-import { RNScrollView, RNTextInput } from "../../components";
+import { Dimensions, StyleSheet, View } from "react-native";
+import { RNButton, RNScrollView, RNTextInput } from "../../components";
 import { PublicStackParamsList } from "../../navigation";
 
 const { width } = Dimensions.get("screen");
@@ -73,16 +73,16 @@ const LoginScreen: FC<LoginScreenProps> = ({ navigation }) => {
               <RNTextInput key={index} />
             ))}
           </View>
-          <Pressable onPress={() => navigation.navigate("Home")}>
-            <View style={styles.button} />
-          </Pressable>
-          <Pressable onPress={() => navigation.navigate("Register")}>
-            <View
-              style={[styles.button, { backgroundColor: "#FFF", marginTop: 8 }]}
-            >
-              <Text>Don't have an acccount? Register</Text>
-            </View>
-          </Pressable>
+          <RNButton
+            variant="primary"
+            title=""
+            onPress={() => navigation.navigate("Home")}
+          />
+          <RNButton
+            title=""
+            onPress={() => navigation.navigate("Register")}
+            styles={{ button: { marginTop: 16 } }}
+          />
         </View>
       </View>
     </RNScrollView>
