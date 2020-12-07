@@ -1,12 +1,18 @@
+import { addDays, format, startOfWeek } from "date-fns";
 import Constants from "expo-constants";
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
-import { RNScrollView, RNTextInput } from "../../components";
+import { RNAgenda } from "../../components";
 
-const wait = (timeout: number) => {
-  return new Promise((resolve) => {
-    setTimeout(resolve, timeout);
-  });
+const generateWeekdays = (
+  firstDayOfWeek: 0 | 1 | 2 | 3 | 4 | 5 | 6 | undefined = 0
+) => {
+  const firstDOW = startOfWeek(new Date(), { weekStartsOn: firstDayOfWeek });
+  const shortWeekDaysArray = Array.from(Array(7)).map((e, i) =>
+    format(addDays(firstDOW, i), "EEE")
+  );
+
+  return shortWeekDaysArray;
 };
 
 const { width } = Dimensions.get("screen");
@@ -27,7 +33,8 @@ const styles = StyleSheet.create({
 interface HomeScreenProps {}
 
 const HomeScreen: FC<HomeScreenProps> = () => {
-  const [refreshing, setRefreshing] = useState(false);
+  const weekDaysNames = generateWeekdays();
+  console.log({ weekDaysNames });
 
   return (
     <View style={styles.container}>
@@ -38,23 +45,17 @@ const HomeScreen: FC<HomeScreenProps> = () => {
           }}
         />
       </View>
-      <RNScrollView
-        enablePullToRefresh
-        refreshing={refreshing}
-        styles={{
-          contentContainerStyle: { padding: 16 },
-          style: { borderTopLeftRadius: 44 },
-          underlayColor: "#DDD",
-        }}
-        onRefresh={() => {
-          setRefreshing(true);
-          wait(2000).then(() => setRefreshing(false));
-        }}
-      >
-        {[...new Array(10)].map((_, index) => (
-          <RNTextInput key={index} />
-        ))}
-      </RNScrollView>
+
+      <View style={{ flex: 1 }}>
+        <RNAgenda
+          items={{
+            "2020-12-07": [{ name: "item 1 - any js object" }],
+            "2020-12-08": [{ name: "item 2 - any js object", height: 80 }],
+            "2020-12-09": [],
+            "2020-12-10": [],
+          }}
+        />
+      </View>
     </View>
   );
 };
