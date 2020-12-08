@@ -2,13 +2,7 @@ import { Feather as Icon } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
-import {
-  Dimensions,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
@@ -20,6 +14,13 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#FFF",
     flexDirection: "row",
+    shadowColor: "#DDD",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.4,
+    elevation: 5,
   },
   header: {
     borderTopLeftRadius: 44,
@@ -35,86 +36,6 @@ const styles = StyleSheet.create({
   },
 });
 
-function MyTabBar({ state, descriptors, navigation, ...props }) {
-  const { bottom } = useSafeAreaInsets();
-  console.log({ state, descriptors, navigation, props });
-
-  const focusedOptions = descriptors[state.routes[state.index].key].options;
-
-  if (focusedOptions.tabBarVisible === false) {
-    return null;
-  }
-
-  return (
-    <View style={[styles.container, { minHeight: 56 + bottom }]}>
-      <View
-        style={[
-          StyleSheet.absoluteFillObject,
-          {
-            backgroundColor: "#DDD",
-            borderTopLeftRadius: 44,
-            borderTopRightRadius: 44,
-          },
-        ]}
-      />
-      <View style={[styles.header]}>
-        {state.routes.map((route, index) => {
-          const { options } = descriptors[route.key];
-
-          const Icon = options.tabBarIcon || null;
-
-          const label =
-            options.tabBarLabel !== undefined
-              ? options.tabBarLabel
-              : options.title !== undefined
-              ? options.title
-              : route.name;
-
-          const isFocused = state.index === index;
-
-          const onPress = () => {
-            const event = navigation.emit({
-              type: "tabPress",
-              target: route.key,
-              canPreventDefault: true,
-            });
-
-            if (!isFocused && !event.defaultPrevented) {
-              navigation.navigate(route.name);
-            }
-          };
-
-          const onLongPress = () => {
-            navigation.emit({
-              type: "tabLongPress",
-              target: route.key,
-            });
-          };
-
-          return (
-            <TouchableOpacity
-              key={route.key}
-              accessibilityRole="button"
-              accessibilityState={isFocused ? { selected: true } : {}}
-              accessibilityLabel={options.tabBarAccessibilityLabel}
-              onPress={onPress}
-              onLongPress={onLongPress}
-              style={styles.tab}
-            >
-              {Icon && <Icon />}
-              {props.showLabel && (
-                <Text style={{ color: isFocused ? "#673ab7" : "#222" }}>
-                  {label}
-                </Text>
-              )}
-            </TouchableOpacity>
-          );
-        })}
-      </View>
-    </View>
-  );
-}
-
 type BottomTabParamList = {
   Home: undefined;
   Profile: undefined;
@@ -124,21 +45,33 @@ const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
+  const { bottom } = useSafeAreaInsets();
 
   return (
     <BottomTab.Navigator
       initialRouteName="Home"
       tabBarOptions={{
         activeTintColor: Colors[colorScheme].tint,
-        showLabel: true,
+        showLabel: false,
+        style: {
+          backgroundColor: "#F9F9F9",
+          height: 56 + bottom,
+          shadowColor: "#DDD",
+          shadowOffset: {
+            width: 0,
+            height: 10,
+          },
+          shadowOpacity: 0.53,
+          shadowRadius: 8,
+          elevation: 5,
+        },
       }}
-      tabBar={(props) => <MyTabBar {...props} />}
     >
       <BottomTab.Screen
         name="Home"
         component={HomeScreen}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="grid" color={color} />,
         }}
       />
       <BottomTab.Screen
