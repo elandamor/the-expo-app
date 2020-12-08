@@ -21,8 +21,6 @@ const styles = StyleSheet.create({
 interface HomeScreenProps {}
 
 const HomeScreen: FC<HomeScreenProps> = () => {
-  const { user } = { user: { email: "thando@sovtech.com" } }; // useAuthentication()
-
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -42,10 +40,11 @@ const HomeScreen: FC<HomeScreenProps> = () => {
         }}
       >
         <Checkout
-          paystackKey="pk_test_3a958a8fabb85177b3a505f0d44466456cedaa46"
-          amount={500}
-          billingEmail="thando@sovtech.com"
-          billingName="the-expo-app"
+          paystackKey={process.env.REACT_APP_PAYSTACK_PUBLIC_KEY}
+          amount={process.env.REACT_APP_PAYSTACK_PLAN_PRICE}
+          billingEmail={process.env.REACT_APP_BILLING_EMAIL}
+          billingName={process.env.REACT_APP_BILLING_NAME}
+          plan={process.env.REACT_APP_PAYSTACK_PLAN}
           onSuccess={(callback: object) => {
             console.log({ callback });
           }}

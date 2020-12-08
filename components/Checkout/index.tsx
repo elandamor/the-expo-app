@@ -44,18 +44,8 @@ const Checkout: FC<CheckoutProps> = ({
             var handler = PaystackPop.setup({ 
               key: '${props.paystackKey}',
               email: '${props.billingEmail}',
-              // TODO: Figure out why using env fails
-              plan: 'PLN_lm5m5z8m6o804xx',
+              plan: '${props.plan}',
               channels: ['card'],
-              metadata: {
-                custom_fields: [
-                  {
-                    display_name: 'the-expo-app',
-                    variable_name: 'the_expo_app',
-                    value: '${props.billingName}'
-                  }
-                ]
-              },
               callback: function(response) {
                 var resp = {event:'successful', transactionRef:response};
                 window.ReactNativeWebView.postMessage(JSON.stringify(resp))
