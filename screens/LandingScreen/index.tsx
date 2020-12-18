@@ -1,8 +1,9 @@
 import { StackNavigationProp } from "@react-navigation/stack";
 import Constants from "expo-constants";
 import React, { FC } from "react";
-import { Dimensions, Pressable, StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { RNButton } from "../../components";
 import { PublicStackParamsList } from "../../navigation";
 
 const { width } = Dimensions.get("screen");
@@ -65,14 +66,16 @@ const LandingScreen: FC<LandingScreenProps> = ({ navigation }) => {
             paddingBottom: 16 + bottom,
           }}
         >
-          <Pressable onPress={() => navigation.navigate("Login")}>
-            <View style={styles.button} />
-          </Pressable>
-          <Pressable onPress={() => navigation.navigate("Register")}>
-            <View
-              style={[styles.button, { backgroundColor: "#FFF", marginTop: 8 }]}
-            />
-          </Pressable>
+          <RNButton
+            variant="primary"
+            title=""
+            onPress={() => navigation.navigate("Login")}
+          />
+          <RNButton
+            title=""
+            onPress={() => navigation.navigate("Register")}
+            styles={{ button: { marginTop: 16 } }}
+          />
         </View>
       </View>
     </View>
@@ -85,8 +88,15 @@ export default LandingScreen;
 
 // const Slider: FC<SliderProps> = ({ children, ...props }) => {
 //   return (
-//     <View style={}>
-//       <ScrollView horizontal decelerationRate="fast"  showsHorizontalScrollIndicator={false} snapToInterval={width}>{children}</ScrollView>
+//     <View style={styles.container}>
+//       <ScrollView
+//         horizontal
+//         decelerationRate="fast"
+//         showsHorizontalScrollIndicator={false}
+//         snapToInterval={width}
+//       >
+//         {children}
+//       </ScrollView>
 //     </View>
 //   );
 // };
