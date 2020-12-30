@@ -44,7 +44,7 @@ const PrivateNavigator = () => {
 };
 
 const RootNavigator = () => {
-  const { isAuthenticated } = { isAuthenticated: false };
+  const { isAuthenticated } = { isAuthenticated: true };
 
   if (!isAuthenticated) {
     return <PublicNavigator />;
