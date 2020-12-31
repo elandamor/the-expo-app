@@ -1,43 +1,34 @@
 import differenceInMinutes from "date-fns/differenceInMinutes";
 import format from "date-fns/format";
 import memoizeOne from "memoize-one";
-import React, { FC, useState } from "react";
-import { Text, TouchableWithoutFeedback, View } from "react-native";
+import React, { FC } from "react";
+import { Text, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { ItemType } from "..";
 import { EventType } from "../../../screens/HomeScreen";
 import { CONTAINER_WIDTH, TIME_LABEL_HEIGHT } from "../utils";
 import styles from "./Events.styles";
 
-const GREY_COLOR = "#70757a";
+const GREY_COLOR = "#D4D7DA";
 
 const MINUTES_IN_HOUR = 60;
-const EVENT_HORIZONTAL_PADDING = 10;
 const EVENTS_CONTAINER_WIDTH = CONTAINER_WIDTH;
 
 interface EventsProps {
-  hoursInDisplay: number;
   events: EventType[];
   item: ItemType;
   numberOfColumns: number;
   times: string[];
 }
 
-const Events: FC<EventsProps> = ({
-  hoursInDisplay,
-  numberOfColumns,
-  times,
-  events,
-  item,
-}) => {
+const Events: FC<EventsProps> = ({ numberOfColumns, times, events, item }) => {
   const { from: openingTime, to: closingTime } = { from: "08:00", to: "17:00" };
 
-  const [containerHeight, setContainerHeight] = useState(0);
-
   const getEventItemWidth = () => {
-    return EVENTS_CONTAINER_WIDTH / numberOfColumns;
+    return Math.floor(EVENTS_CONTAINER_WIDTH / numberOfColumns);
   };
 
-  const getStyleForEvent = (event: EventType, index: number) => {
+  const getStyleForEvent = (event: EventType) => {
     const formattedDate = format(new Date(), "yyyy-MM-dd");
     const dateTime = `${formattedDate}T${openingTime}`;
     const openingHours = new Date(dateTime).getHours();
@@ -46,11 +37,11 @@ const Events: FC<EventsProps> = ({
     const startHours = startDate.getHours();
     const startMinutes = startDate.getMinutes();
     const hoursAfterOpening = startHours - openingHours;
-    const totalStartMinutes =
-      hoursAfterOpening * TIME_LABEL_HEIGHT + startMinutes;
     const top = hoursAfterOpening * TIME_LABEL_HEIGHT + startMinutes;
     const deltaMinutes = differenceInMinutes(endDate, startDate);
-    const height = (deltaMinutes / 60) * TIME_LABEL_HEIGHT;
+    const height =
+      (deltaMinutes / MINUTES_IN_HOUR) * TIME_LABEL_HEIGHT +
+      (deltaMinutes === 30 || deltaMinutes % 60 > 0 ? 3 : 1);
     const width = getEventItemWidth();
 
     console.log({
@@ -60,8 +51,8 @@ const Events: FC<EventsProps> = ({
       hoursAfterOpening,
       startHours,
       startMinutes,
-      totalStartMinutes,
       height,
+      width,
       top,
     });
 
@@ -75,7 +66,7 @@ const Events: FC<EventsProps> = ({
 
   const getEventsWithPosition = (totalEvents: EventType[]) => {
     const eventsWithPosition = totalEvents.reduce((events, event, index) => {
-      const style = getStyleForEvent(event, index);
+      const style = getStyleForEvent(event);
 
       events.push({ data: event, style });
 
@@ -93,7 +84,6 @@ const Events: FC<EventsProps> = ({
   });
 
   const finalEvents = processEvents(events, item);
-  // console.log({ containerHeight, finalEvents });
 
   return (
     <View
@@ -105,7 +95,6 @@ const Events: FC<EventsProps> = ({
         borderColor: GREY_COLOR,
         flexGrow: 1,
       }}
-      onLayout={(event) => setContainerHeight(event.nativeEvent.layout.height)}
     >
       {times.map((time) => {
         return (
@@ -119,21 +108,24 @@ const Events: FC<EventsProps> = ({
       })}
       <View style={styles.events}>
         {finalEvents.map(({ data: event, style }, index) => (
-          <TouchableWithoutFeedback onPress={() => null} key={index}>
+          <TouchableOpacity onPress={() => null} key={index}>
             <View style={[style, styles.event, { padding: 4 }]}>
               <View
                 style={{
-                  backgroundColor: "#cfcfcf",
+                  backgroundColor: "#e6e6e6",
+                  borderRadius: 4,
                   flex: 1,
                   alignItems: "center",
                   justifyContent: "center",
-                  width: style.width - 8,
+                  marginLeft: -1,
+                  paddingHorizontal: 8,
+                  width: "100%",
                 }}
               >
-                <Text>{event.client.name}</Text>
+                <Text numberOfLines={1}>{event.client.name}</Text>
               </View>
             </View>
-          </TouchableWithoutFeedback>
+          </TouchableOpacity>
         ))}
       </View>
     </View>

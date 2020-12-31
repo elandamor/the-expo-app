@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { CONTAINER_WIDTH } from "../utils";
 
-const GREY_COLOR = "#70757a";
+const GREY_COLOR = "#D4D7DA";
 export const CONTENT_OFFSET = 16;
 
 const styles = StyleSheet.create({
@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     position: "absolute",
-    // backgroundColor: GREY_COLOR,
   },
   events: {
     position: "absolute",

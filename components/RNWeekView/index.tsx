@@ -1,7 +1,7 @@
 import format from "date-fns/format";
 import isWithinInterval from "date-fns/isWithinInterval";
 import memoizeOne from "memoize-one";
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useRef } from "react";
 import { Animated, Text, View, VirtualizedList } from "react-native";
 import { EventType } from "../../screens/HomeScreen";
 import RNScrollView from "../RNScrollView";
@@ -10,7 +10,7 @@ import styles from "./styles";
 import Times from "./Times";
 import { CONTAINER_WIDTH, TIME_LABELS_IN_DISPLAY } from "./utils";
 
-const GREY_COLOR = "#70757a";
+const GREY_COLOR = "#D4D7DA";
 const MINUTES_IN_DAY = 60 * 24;
 
 export type ItemType = {
@@ -31,7 +31,6 @@ const RNWeekView: FC<RNWeekViewProps> = ({
   hoursInDisplay,
   numberOfColumns = 2,
 }) => {
-  const [containerHeight, setContainerHeight] = useState(0);
   const headerRef = useRef<any>(null);
   const eventsGridScrollX = new Animated.Value(0);
 
@@ -88,13 +87,17 @@ const RNWeekView: FC<RNWeekViewProps> = ({
       <View style={[styles.headerContainer, { paddingLeft: 64 }]}>
         <VirtualizedList
           ref={headerRef}
-          style={{
-            borderLeftWidth: 1,
-            borderColor: GREY_COLOR,
-          }}
+          style={[
+            styles.header,
+            {
+              borderLeftWidth: 1,
+              borderColor: GREY_COLOR,
+            },
+          ]}
           contentContainerStyle={{ height: 50 }}
           horizontal
           pagingEnabled
+          scrollEnabled={false}
           showsHorizontalScrollIndicator={false}
           data={headers}
           getItem={(data, index) => data[index]}
@@ -122,12 +125,7 @@ const RNWeekView: FC<RNWeekViewProps> = ({
         />
       </View>
       <RNScrollView>
-        <View
-          style={styles.scrollViewContent}
-          onLayout={(event) =>
-            setContainerHeight(event.nativeEvent.layout.height)
-          }
-        >
+        <View style={styles.scrollViewContent}>
           <Times times={times} textStyle={{ color: "#8C8C8C" }} />
           <VirtualizedList
             bounces={false}
@@ -145,8 +143,6 @@ const RNWeekView: FC<RNWeekViewProps> = ({
                   times={times}
                   events={events}
                   numberOfColumns={numberOfColumns}
-                  hoursInDisplay={hoursInDisplay}
-                  containerHeight={containerHeight}
                 />
               );
             }}

@@ -40,47 +40,51 @@ const stylists = [
     id: "2",
     name: "Zizipho",
   },
+  {
+    id: "3",
+    name: "Abbi",
+  },
 ];
 
 const sampleEvents = [
-  {
-    id: 1,
-    description: "Event 1",
-    startDate: generateDates(8),
-    endDate: generateDates(8, 30),
-    client: {
-      id: "1",
-      name: "Andile Abede",
-    },
-    stylist: stylists[0],
-    duration: 90,
-  },
-  {
-    id: 2,
-    startDate: generateDates(10),
-    endDate: generateDates(13, 30),
-    client: {
-      id: "2",
-      name: "James Ndlovu",
-    },
-    stylist: stylists[0],
-    duration: 120,
-  },
-  {
-    id: 3,
-    startDate: generateDates(11, 30),
-    endDate: generateDates(12),
-    client: {
-      id: "3",
-      name: "Sipho Abede",
-    },
-    stylist: stylists[1],
-    duration: 60,
-  },
+  // {
+  //   id: 1,
+  //   description: "Event 1",
+  //   startDate: generateDates(8),
+  //   endDate: generateDates(8, 30),
+  //   client: {
+  //     id: "1",
+  //     name: "Andile Abede",
+  //   },
+  //   stylist: stylists[0],
+  //   duration: 90,
+  // },
+  // {
+  //   id: 2,
+  //   startDate: generateDates(10),
+  //   endDate: generateDates(13, 30),
+  //   client: {
+  //     id: "2",
+  //     name: "James Ndlovu",
+  //   },
+  //   stylist: stylists[2],
+  //   duration: 120,
+  // },
+  // {
+  //   id: 3,
+  //   startDate: generateDates(12, 30),
+  //   endDate: generateDates(15),
+  //   client: {
+  //     id: "3",
+  //     name: "Sipho Abede",
+  //   },
+  //   stylist: stylists[1],
+  //   duration: 60,
+  // },
   {
     id: 4,
     startDate: generateDates(8, 30),
-    endDate: generateDates(10),
+    endDate: generateDates(13, 30),
     client: {
       id: "4",
       name: "Thato Nkosi",
@@ -88,15 +92,26 @@ const sampleEvents = [
     stylist: stylists[0],
     duration: 60,
   },
+  // {
+  //   id: 5,
+  //   startDate: generateDates(8),
+  //   endDate: generateDates(11, 30),
+  //   client: {
+  //     id: "5",
+  //     name: "Ben Ndlovu",
+  //   },
+  //   stylist: stylists[1],
+  //   duration: 60,
+  // },
   {
-    id: 5,
-    startDate: generateDates(8),
-    endDate: generateDates(8, 30),
+    id: 6,
+    startDate: generateDates(13, 30),
+    endDate: generateDates(14),
     client: {
-      id: "5",
-      name: "Ben Ndlovu",
+      id: "6",
+      name: "Thandolwethu Mpofu",
     },
-    stylist: stylists[1],
+    stylist: stylists[0],
     duration: 60,
   },
 ];
