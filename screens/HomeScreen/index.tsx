@@ -1,19 +1,7 @@
-import { addDays, format, startOfWeek } from "date-fns";
 import Constants from "expo-constants";
 import React, { FC, useState } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 import { RNAgenda, RNWeekView } from "../../components";
-
-const generateWeekdays = (
-  firstDayOfWeek: 0 | 1 | 2 | 3 | 4 | 5 | 6 | undefined = 0
-) => {
-  const firstDOW = startOfWeek(new Date(), { weekStartsOn: firstDayOfWeek });
-  const shortWeekDaysArray = Array.from(Array(7)).map((e, i) =>
-    format(addDays(firstDOW, i), "EEE")
-  );
-
-  return shortWeekDaysArray;
-};
 
 const generateDates = (hours: number, minutes?: number) => {
   const date = new Date();
@@ -89,15 +77,7 @@ const HomeScreen: FC<HomeScreenProps> = () => {
               setSelectedDate(new Date(dateString));
             }}
           >
-            <RNWeekView
-            // events={sampleEvents}
-            // selectedDate={selectedDate}
-            // numberOfDays={2}
-            // headerStyle={styles.header}
-            // eventContainerStyle={styles.eventContainer}
-            // hoursInDisplay={12}
-            // startHour={8}
-            />
+            <RNWeekView events={sampleEvents} />
           </RNAgenda>
         </View>
       </View>

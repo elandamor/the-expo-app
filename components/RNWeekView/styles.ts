@@ -12,11 +12,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   header: {
-    flex: 1,
+    flexGrow: 1,
     height: 50,
+    width: CONTAINER_WIDTH,
+  },
+  title: {
     justifyContent: "center",
     alignItems: "center",
-    width: CONTAINER_WIDTH,
+    width: 64,
   },
 });
 
