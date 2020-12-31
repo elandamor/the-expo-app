@@ -4,7 +4,7 @@ import React, { FC, useState } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 import { RNAgenda, RNWeekView } from "../../components";
 
-const generateDates = (hour: number, minutes?: number) => {
+const generateDate = (hour: number, minutes?: number) => {
   const formattedDate = format(new Date(), "yyyy-MM-dd");
 
   return `${formattedDate}T${hour < 10 ? "0" + hour : hour}:${
@@ -47,44 +47,44 @@ const stylists = [
 ];
 
 const sampleEvents = [
-  // {
-  //   id: 1,
-  //   description: "Event 1",
-  //   startDate: generateDates(8),
-  //   endDate: generateDates(8, 30),
-  //   client: {
-  //     id: "1",
-  //     name: "Andile Abede",
-  //   },
-  //   stylist: stylists[0],
-  //   duration: 90,
-  // },
-  // {
-  //   id: 2,
-  //   startDate: generateDates(10),
-  //   endDate: generateDates(13, 30),
-  //   client: {
-  //     id: "2",
-  //     name: "James Ndlovu",
-  //   },
-  //   stylist: stylists[2],
-  //   duration: 120,
-  // },
-  // {
-  //   id: 3,
-  //   startDate: generateDates(12, 30),
-  //   endDate: generateDates(15),
-  //   client: {
-  //     id: "3",
-  //     name: "Sipho Abede",
-  //   },
-  //   stylist: stylists[1],
-  //   duration: 60,
-  // },
+  {
+    id: 1,
+    description: "Event 1",
+    startDate: generateDate(8),
+    endDate: generateDate(8, 30),
+    client: {
+      id: "1",
+      name: "Andile Abede",
+    },
+    stylist: stylists[0],
+    duration: 90,
+  },
+  {
+    id: 2,
+    startDate: generateDate(10),
+    endDate: generateDate(13, 30),
+    client: {
+      id: "2",
+      name: "James Ndlovu",
+    },
+    stylist: stylists[2],
+    duration: 120,
+  },
+  {
+    id: 3,
+    startDate: generateDate(12, 30),
+    endDate: generateDate(15),
+    client: {
+      id: "3",
+      name: "Sipho Abede",
+    },
+    stylist: stylists[1],
+    duration: 60,
+  },
   {
     id: 4,
-    startDate: generateDates(8, 30),
-    endDate: generateDates(13, 30),
+    startDate: generateDate(8, 30),
+    endDate: generateDate(13, 30),
     client: {
       id: "4",
       name: "Thato Nkosi",
@@ -92,21 +92,21 @@ const sampleEvents = [
     stylist: stylists[0],
     duration: 60,
   },
-  // {
-  //   id: 5,
-  //   startDate: generateDates(8),
-  //   endDate: generateDates(11, 30),
-  //   client: {
-  //     id: "5",
-  //     name: "Ben Ndlovu",
-  //   },
-  //   stylist: stylists[1],
-  //   duration: 60,
-  // },
+  {
+    id: 5,
+    startDate: generateDate(8),
+    endDate: generateDate(11, 30),
+    client: {
+      id: "5",
+      name: "Ben Ndlovu",
+    },
+    stylist: stylists[1],
+    duration: 60,
+  },
   {
     id: 6,
-    startDate: generateDates(13, 30),
-    endDate: generateDates(14),
+    startDate: generateDate(13, 30),
+    endDate: generateDate(14),
     client: {
       id: "6",
       name: "Thandolwethu Mpofu",

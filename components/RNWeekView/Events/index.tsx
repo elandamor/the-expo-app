@@ -36,16 +36,21 @@ const Events: FC<EventsProps> = ({ numberOfColumns, times, events, item }) => {
     const endDate = new Date(event.endDate);
     const startHours = startDate.getHours();
     const startMinutes = startDate.getMinutes();
+    const endMinutes = endDate.getMinutes();
     const hoursAfterOpening = startHours - openingHours;
     const top = hoursAfterOpening * TIME_LABEL_HEIGHT + startMinutes;
     const deltaMinutes = differenceInMinutes(endDate, startDate);
+    const deltaHours = deltaMinutes / MINUTES_IN_HOUR;
+    const heightOffset = deltaMinutes === 30 || deltaMinutes % 60 > 0 ? 3 : 1;
+    // if (startMinutes > 0 && endMinutes > 0) heightOffset = 5
     const height =
-      (deltaMinutes / MINUTES_IN_HOUR) * TIME_LABEL_HEIGHT +
-      (deltaMinutes === 30 || deltaMinutes % 60 > 0 ? 3 : 1);
+      deltaHours * TIME_LABEL_HEIGHT +
+      (startMinutes > 0 && endMinutes > 0 ? 5 : heightOffset);
     const width = getEventItemWidth();
 
     console.log({
       dateTime,
+      endMinutes,
       openingHours,
       deltaMinutes,
       hoursAfterOpening,
