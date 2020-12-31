@@ -6,9 +6,17 @@ import styles from "./Times.styles";
 const Times = ({ times, textStyle }) => {
   return (
     <View style={styles.columnContainer}>
-      {times.map((time) => (
+      {times.map((time, index) => (
         <View key={time} style={[styles.label, { height: TIME_LABEL_HEIGHT }]}>
-          <Text style={[styles.text, textStyle]}>{time}</Text>
+          <Text
+            style={[
+              styles.text,
+              textStyle,
+              { marginTop: index === 0 ? 0 : -10 },
+            ]}
+          >
+            {time}
+          </Text>
         </View>
       ))}
     </View>

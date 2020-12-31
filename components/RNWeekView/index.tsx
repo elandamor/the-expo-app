@@ -1,27 +1,37 @@
 import format from "date-fns/format";
 import isWithinInterval from "date-fns/isWithinInterval";
 import memoizeOne from "memoize-one";
-import React, { FC, useEffect, useRef } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { Animated, Text, View, VirtualizedList } from "react-native";
+import { EventType } from "../../screens/HomeScreen";
 import RNScrollView from "../RNScrollView";
+import Events from "./Events";
 import styles from "./styles";
 import Times from "./Times";
 import { CONTAINER_WIDTH, TIME_LABELS_IN_DISPLAY } from "./utils";
 
+const GREY_COLOR = "#70757a";
 const MINUTES_IN_DAY = 60 * 24;
 
+export type ItemType = {
+  id: string;
+  name: string;
+};
+
 interface RNWeekViewProps {
-  events: any[];
+  headers: ItemType[];
+  events: EventType[];
   hoursInDisplay?: number;
   numberOfColumns?: number;
 }
 
 const RNWeekView: FC<RNWeekViewProps> = ({
   events,
+  headers,
   hoursInDisplay,
   numberOfColumns = 2,
 }) => {
-  const initialHeaders = ["Wanda", "Zizipho", "Abbi", "Thando", "Kayleen"];
+  const [containerHeight, setContainerHeight] = useState(0);
   const headerRef = useRef<any>(null);
   const eventsGridScrollX = new Animated.Value(0);
 
@@ -57,7 +67,7 @@ const RNWeekView: FC<RNWeekViewProps> = ({
 
       return isWithinInterval(new Date(dateTime), {
         start: new Date(`${formattedDate}T08:00`),
-        end: new Date(`${formattedDate}T17:00`),
+        end: new Date(`${formattedDate}T21:00`),
       });
     })
     .map((time) => format(new Date(time), "h aaaa"));
@@ -80,23 +90,21 @@ const RNWeekView: FC<RNWeekViewProps> = ({
           ref={headerRef}
           style={{
             borderLeftWidth: 1,
-            borderBottomWidth: 1,
-            borderColor: "#8C8C8C",
+            borderColor: GREY_COLOR,
           }}
           contentContainerStyle={{ height: 50 }}
-          scrollEnabled={false}
           horizontal
           pagingEnabled
           showsHorizontalScrollIndicator={false}
-          data={initialHeaders}
+          data={headers}
           getItem={(data, index) => data[index]}
           getItemCount={(data) => data.length}
           getItemLayout={(_, index) => getListItemLayout(index)}
-          keyExtractor={(item) => item}
-          renderItem={({ item: title }: { item: string }) => {
+          keyExtractor={(item: ItemType) => item.id}
+          renderItem={({ item }) => {
             return (
               <View
-                key={title}
+                key={item.id}
                 style={{
                   alignItems: "center",
                   display: "flex",
@@ -104,40 +112,42 @@ const RNWeekView: FC<RNWeekViewProps> = ({
                   flexDirection: "row",
                   width: CONTAINER_WIDTH / (numberOfColumns as number),
                   borderRightWidth: 1,
-                  borderColor: "#8C8C8C",
+                  borderColor: GREY_COLOR,
                 }}
               >
-                <Text>{title}</Text>
+                <Text>{item.name}</Text>
               </View>
             );
           }}
         />
       </View>
       <RNScrollView>
-        <View style={styles.scrollViewContent}>
+        <View
+          style={styles.scrollViewContent}
+          onLayout={(event) =>
+            setContainerHeight(event.nativeEvent.layout.height)
+          }
+        >
           <Times times={times} textStyle={{ color: "#8C8C8C" }} />
           <VirtualizedList
-            style={{ borderLeftWidth: 1, borderColor: "#8C8C8C" }}
-            data={initialHeaders}
+            bounces={false}
+            style={{ borderLeftWidth: 1, borderColor: GREY_COLOR }}
+            data={headers}
             getItem={(data, index) => data[index]}
             getItemCount={(data) => data.length}
             getItemLayout={(_, index) => getListItemLayout(index)}
-            keyExtractor={(item) => item}
+            keyExtractor={(item: ItemType) => item.id}
             showsHorizontalScrollIndicator={false}
-            renderItem={({ item }: { item: string }) => {
+            renderItem={({ item }) => {
               return (
-                <View
-                  key={item}
-                  style={{
-                    alignItems: "center",
-                    display: "flex",
-                    justifyContent: "center",
-                    flexDirection: "row",
-                    width: CONTAINER_WIDTH / (numberOfColumns as number),
-                    borderRightWidth: 1,
-                    borderColor: "#8C8C8C",
-                  }}
-                ></View>
+                <Events
+                  item={item}
+                  times={times}
+                  events={events}
+                  numberOfColumns={numberOfColumns}
+                  hoursInDisplay={hoursInDisplay}
+                  containerHeight={containerHeight}
+                />
               );
             }}
             horizontal

@@ -1,7 +1,7 @@
-import { StyleSheet } from 'react-native';
-import { CONTAINER_WIDTH } from '../utils';
+import { StyleSheet } from "react-native";
+import { CONTAINER_WIDTH } from "../utils";
 
-const GREY_COLOR = '#E9EDF0';
+const GREY_COLOR = "#70757a";
 export const CONTENT_OFFSET = 16;
 
 const styles = StyleSheet.create({
@@ -16,24 +16,24 @@ const styles = StyleSheet.create({
   timeLabelLine: {
     height: 1,
     backgroundColor: GREY_COLOR,
-    position: 'absolute',
+    position: "absolute",
     right: 0,
     left: 0,
   },
   event: {
-    flex: 1,
-    overflow: 'hidden',
-    borderColor: GREY_COLOR,
-    borderLeftWidth: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    // backgroundColor: GREY_COLOR,
   },
   events: {
-    position: 'absolute',
-    flexDirection: 'row',
+    position: "absolute",
+    flexDirection: "column",
     left: 0,
     right: 0,
     bottom: 0,
     top: 0,
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
   },
 });
 

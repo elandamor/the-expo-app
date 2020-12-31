@@ -1,15 +1,15 @@
+import format from "date-fns/format";
 import Constants from "expo-constants";
 import React, { FC, useState } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 import { RNAgenda, RNWeekView } from "../../components";
 
-const generateDates = (hours: number, minutes?: number) => {
-  const date = new Date();
-  date.setHours(date.getHours() + hours);
-  if (minutes != null) {
-    date.setMinutes(minutes);
-  }
-  return date;
+const generateDates = (hour: number, minutes?: number) => {
+  const formattedDate = format(new Date(), "yyyy-MM-dd");
+
+  return `${formattedDate}T${hour < 10 ? "0" + hour : hour}:${
+    minutes || "00"
+  }:00`;
 };
 
 const { width } = Dimensions.get("screen");
@@ -31,29 +31,91 @@ const styles = StyleSheet.create({
   },
 });
 
+const stylists = [
+  {
+    id: "1",
+    name: "Wanda",
+  },
+  {
+    id: "2",
+    name: "Zizipho",
+  },
+];
+
 const sampleEvents = [
   {
     id: 1,
     description: "Event 1",
-    startDate: generateDates(0),
-    endDate: generateDates(2),
-    color: "blue",
+    startDate: generateDates(8),
+    endDate: generateDates(8, 30),
+    client: {
+      id: "1",
+      name: "Andile Abede",
+    },
+    stylist: stylists[0],
+    duration: 90,
   },
   {
     id: 2,
-    description: "Event 2",
-    startDate: generateDates(1),
-    endDate: generateDates(4),
-    color: "red",
+    startDate: generateDates(10),
+    endDate: generateDates(13, 30),
+    client: {
+      id: "2",
+      name: "James Ndlovu",
+    },
+    stylist: stylists[0],
+    duration: 120,
   },
   {
     id: 3,
-    description: "Event 3",
-    startDate: generateDates(-5),
-    endDate: generateDates(-3),
-    color: "green",
+    startDate: generateDates(11, 30),
+    endDate: generateDates(12),
+    client: {
+      id: "3",
+      name: "Sipho Abede",
+    },
+    stylist: stylists[1],
+    duration: 60,
+  },
+  {
+    id: 4,
+    startDate: generateDates(8, 30),
+    endDate: generateDates(10),
+    client: {
+      id: "4",
+      name: "Thato Nkosi",
+    },
+    stylist: stylists[0],
+    duration: 60,
+  },
+  {
+    id: 5,
+    startDate: generateDates(8),
+    endDate: generateDates(8, 30),
+    client: {
+      id: "5",
+      name: "Ben Ndlovu",
+    },
+    stylist: stylists[1],
+    duration: 60,
   },
 ];
+
+export type EventType = {
+  id: number;
+  description: string;
+  startDate: Date;
+  endDate: Date;
+  client: {
+    id: string;
+    name: string;
+  };
+  stylist: {
+    id: string;
+    name: string;
+  };
+  duration: number;
+};
 
 interface HomeScreenProps {}
 
@@ -77,7 +139,7 @@ const HomeScreen: FC<HomeScreenProps> = () => {
               setSelectedDate(new Date(dateString));
             }}
           >
-            <RNWeekView events={sampleEvents} />
+            <RNWeekView headers={stylists} events={sampleEvents} />
           </RNAgenda>
         </View>
       </View>
