@@ -2,10 +2,9 @@ import differenceInMinutes from "date-fns/differenceInMinutes";
 import format from "date-fns/format";
 import memoizeOne from "memoize-one";
 import React, { FC } from "react";
-import { Text, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { View } from "react-native";
 import { ItemType } from "..";
-import { EventType } from "../../../screens/HomeScreen";
+import Event, { EventType } from "../Event";
 import { CONTAINER_WIDTH, TIME_LABEL_HEIGHT } from "../utils";
 import styles from "./Events.styles";
 
@@ -19,9 +18,16 @@ interface EventsProps {
   item: ItemType;
   numberOfColumns: number;
   times: string[];
+  onEventPress?: (event: EventType) => void;
 }
 
-const Events: FC<EventsProps> = ({ numberOfColumns, times, events, item }) => {
+const Events: FC<EventsProps> = ({
+  numberOfColumns,
+  times,
+  events,
+  item,
+  onEventPress,
+}) => {
   const { from: openingTime, to: closingTime } = { from: "08:00", to: "17:00" };
 
   const getEventItemWidth = () => {
@@ -93,31 +99,17 @@ const Events: FC<EventsProps> = ({ numberOfColumns, times, events, item }) => {
           <View
             key={time}
             style={[styles.timeRow, { height: TIME_LABEL_HEIGHT }]}
+            pointerEvents="none"
           >
             <View style={styles.timeLabelLine} />
           </View>
         );
       })}
       <View style={styles.events}>
-        {finalEvents.map(({ data: event, style }, index) => (
-          <TouchableOpacity onPress={() => null} key={index}>
-            <View style={[style, styles.event, { padding: 4 }]}>
-              <View
-                style={{
-                  backgroundColor: "#e6e6e6",
-                  borderRadius: 4,
-                  flex: 1,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginLeft: -1,
-                  paddingHorizontal: 8,
-                  width: "100%",
-                }}
-              >
-                <Text numberOfLines={1}>{event.client.name}</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
+        {finalEvents.map(({ data: event, style }) => (
+          <View key={event.id} style={[style, styles.event, { padding: 4 }]}>
+            <Event data={event} onPress={onEventPress} />
+          </View>
         ))}
       </View>
     </View>

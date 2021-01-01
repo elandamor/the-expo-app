@@ -2,7 +2,7 @@ import format from "date-fns/format";
 import Constants from "expo-constants";
 import React, { FC, useState } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
-import { RNAgenda, RNSchedule } from "../../components";
+import { RNCalendar, RNSchedule } from "../../components";
 
 const generateDate = (hour: number, minutes?: number) => {
   const formattedDate = format(new Date(), "yyyy-MM-dd");
@@ -47,10 +47,9 @@ const stylists = [
 ];
 
 const sampleEvents = {
-  "2020-12-31": [
+  "2021-01-01": [
     {
       id: 1,
-      description: "Event 1",
       startDate: generateDate(8),
       endDate: generateDate(8, 30),
       client: {
@@ -186,22 +185,6 @@ const sampleEvents = {
   ],
 };
 
-export type EventType = {
-  id: number;
-  description: string;
-  startDate: Date;
-  endDate: Date;
-  client: {
-    id: string;
-    name: string;
-  };
-  stylist: {
-    id: string;
-    name: string;
-  };
-  duration: number;
-};
-
 interface HomeScreenProps {}
 
 const HomeScreen: FC<HomeScreenProps> = () => {
@@ -220,16 +203,17 @@ const HomeScreen: FC<HomeScreenProps> = () => {
 
       <View style={{ flex: 1 }}>
         <View style={{ borderBottomWidth: 1, borderColor: "red", flexGrow: 1 }}>
-          <RNAgenda
-            onDayPress={({ dateString }: { dateString: string }) => {
+          <RNCalendar
+            onDayPress={({ dateString }) => {
               setSelectedDate(dateString);
             }}
           >
             <RNSchedule
               headers={stylists}
               events={sampleEvents[selectedDate] || []}
+              onEventPress={(event) => console.log({ event })}
             />
-          </RNAgenda>
+          </RNCalendar>
         </View>
       </View>
     </View>

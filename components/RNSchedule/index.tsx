@@ -3,8 +3,8 @@ import isWithinInterval from "date-fns/isWithinInterval";
 import memoizeOne from "memoize-one";
 import React, { FC, useEffect, useRef } from "react";
 import { Animated, Text, View, VirtualizedList } from "react-native";
-import { EventType } from "../../screens/HomeScreen";
 import RNScrollView from "../RNScrollView";
+import { EventType } from "./Event";
 import Events from "./Events";
 import styles from "./styles";
 import Times from "./Times";
@@ -21,16 +21,17 @@ export type ItemType = {
 interface RNScheduleProps {
   headers: ItemType[];
   events: EventType[];
-  hoursInDisplay?: number;
   numberOfColumns?: number;
+  onEventPress?: (event: EventType) => void;
 }
 
 const RNSchedule: FC<RNScheduleProps> = ({
   events,
   headers,
-  hoursInDisplay,
   numberOfColumns = 2,
+  onEventPress,
 }) => {
+  const hoursInDisplay = 12;
   const headerRef = useRef<any>(null);
   const eventsGridScrollX = new Animated.Value(0);
 
@@ -66,7 +67,7 @@ const RNSchedule: FC<RNScheduleProps> = ({
 
       return isWithinInterval(new Date(dateTime), {
         start: new Date(`${formattedDate}T08:00`),
-        end: new Date(`${formattedDate}T21:00`),
+        end: new Date(`${formattedDate}T17:00`),
       });
     })
     .map((time) => format(new Date(time), "h aaaa"));
@@ -143,6 +144,7 @@ const RNSchedule: FC<RNScheduleProps> = ({
                   times={times}
                   events={events}
                   numberOfColumns={numberOfColumns}
+                  onEventPress={onEventPress}
                 />
               );
             }}
@@ -170,7 +172,6 @@ const RNSchedule: FC<RNScheduleProps> = ({
 
 RNSchedule.defaultProps = {
   events: [],
-  hoursInDisplay: 12,
 };
 
 export default RNSchedule;
