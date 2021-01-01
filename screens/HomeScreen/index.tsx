@@ -46,75 +46,146 @@ const stylists = [
   },
 ];
 
-const sampleEvents = [
-  {
-    id: 1,
-    description: "Event 1",
-    startDate: generateDate(8),
-    endDate: generateDate(8, 30),
-    client: {
-      id: "1",
-      name: "Andile Abede",
+const sampleEvents = {
+  "2021-01-01": [
+    {
+      id: 1,
+      description: "Event 1",
+      startDate: generateDate(8),
+      endDate: generateDate(8, 30),
+      client: {
+        id: "1",
+        name: "Andile Abede",
+      },
+      stylist: stylists[0],
+      duration: 90,
     },
-    stylist: stylists[0],
-    duration: 90,
-  },
-  {
-    id: 2,
-    startDate: generateDate(10),
-    endDate: generateDate(13, 30),
-    client: {
-      id: "2",
-      name: "James Ndlovu",
+    {
+      id: 2,
+      startDate: generateDate(10),
+      endDate: generateDate(13, 30),
+      client: {
+        id: "2",
+        name: "James Ndlovu",
+      },
+      stylist: stylists[2],
+      duration: 120,
     },
-    stylist: stylists[2],
-    duration: 120,
-  },
-  {
-    id: 3,
-    startDate: generateDate(12, 30),
-    endDate: generateDate(15),
-    client: {
-      id: "3",
-      name: "Sipho Abede",
+    {
+      id: 3,
+      startDate: generateDate(12, 30),
+      endDate: generateDate(15),
+      client: {
+        id: "3",
+        name: "Sipho Abede",
+      },
+      stylist: stylists[1],
+      duration: 60,
     },
-    stylist: stylists[1],
-    duration: 60,
-  },
-  {
-    id: 4,
-    startDate: generateDate(8, 30),
-    endDate: generateDate(13, 30),
-    client: {
-      id: "4",
-      name: "Thato Nkosi",
+    {
+      id: 4,
+      startDate: generateDate(8, 30),
+      endDate: generateDate(13, 30),
+      client: {
+        id: "4",
+        name: "Thato Nkosi",
+      },
+      stylist: stylists[0],
+      duration: 60,
     },
-    stylist: stylists[0],
-    duration: 60,
-  },
-  {
-    id: 5,
-    startDate: generateDate(8),
-    endDate: generateDate(11, 30),
-    client: {
-      id: "5",
-      name: "Ben Ndlovu",
+    {
+      id: 5,
+      startDate: generateDate(8),
+      endDate: generateDate(11, 30),
+      client: {
+        id: "5",
+        name: "Ben Ndlovu",
+      },
+      stylist: stylists[1],
+      duration: 60,
     },
-    stylist: stylists[1],
-    duration: 60,
-  },
-  {
-    id: 6,
-    startDate: generateDate(13, 30),
-    endDate: generateDate(14),
-    client: {
-      id: "6",
-      name: "Thandolwethu Mpofu",
+    {
+      id: 6,
+      startDate: generateDate(13, 30),
+      endDate: generateDate(14),
+      client: {
+        id: "6",
+        name: "Thandolwethu Mpofu",
+      },
+      stylist: stylists[0],
+      duration: 60,
     },
-    stylist: stylists[0],
-    duration: 60,
-  },
-];
+  ],
+  "2021-01-02": [
+    {
+      id: 1,
+      description: "Event 1",
+      startDate: generateDate(8),
+      endDate: generateDate(8, 30),
+      client: {
+        id: "1",
+        name: "Andile Abede",
+      },
+      stylist: stylists[0],
+      duration: 90,
+    },
+    {
+      id: 2,
+      startDate: generateDate(9),
+      endDate: generateDate(11, 30),
+      client: {
+        id: "2",
+        name: "James Ndlovu",
+      },
+      stylist: stylists[2],
+      duration: 120,
+    },
+    {
+      id: 3,
+      startDate: generateDate(12, 30),
+      endDate: generateDate(15),
+      client: {
+        id: "3",
+        name: "Sipho Abede",
+      },
+      stylist: stylists[0],
+      duration: 60,
+    },
+    {
+      id: 4,
+      startDate: generateDate(8, 30),
+      endDate: generateDate(12, 30),
+      client: {
+        id: "4",
+        name: "Thato Nkosi",
+      },
+      stylist: stylists[0],
+      duration: 60,
+    },
+    {
+      id: 5,
+      startDate: generateDate(8),
+      endDate: generateDate(8, 30),
+      client: {
+        id: "5",
+        name: "Ben Ndlovu",
+      },
+      stylist: stylists[2],
+      duration: 60,
+    },
+    {
+      id: 6,
+      startDate: generateDate(13, 30),
+      endDate: generateDate(14),
+      client: {
+        id: "6",
+        name: "Thandolwethu Mpofu",
+      },
+      stylist: stylists[0],
+      duration: 60,
+    },
+  ],
+};
 
 export type EventType = {
   id: number;
@@ -135,7 +206,8 @@ export type EventType = {
 interface HomeScreenProps {}
 
 const HomeScreen: FC<HomeScreenProps> = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const formattedDate = format(new Date(), "yyyy-MM-dd");
+  const [selectedDate, setSelectedDate] = useState(formattedDate);
 
   return (
     <View style={styles.container}>
@@ -151,10 +223,13 @@ const HomeScreen: FC<HomeScreenProps> = () => {
         <View style={{ borderBottomWidth: 1, borderColor: "red", flexGrow: 1 }}>
           <RNAgenda
             onDayPress={({ dateString }: { dateString: string }) => {
-              setSelectedDate(new Date(dateString));
+              setSelectedDate(dateString);
             }}
           >
-            <RNWeekView headers={stylists} events={sampleEvents} />
+            <RNWeekView
+              headers={stylists}
+              events={sampleEvents[selectedDate] || []}
+            />
           </RNAgenda>
         </View>
       </View>
