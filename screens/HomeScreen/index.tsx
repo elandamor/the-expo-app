@@ -2,7 +2,7 @@ import format from "date-fns/format";
 import Constants from "expo-constants";
 import React, { FC, useState } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
-import { RNAgenda, RNWeekView } from "../../components";
+import { RNAgenda, RNSchedule } from "../../components";
 
 const generateDate = (hour: number, minutes?: number) => {
   const formattedDate = format(new Date(), "yyyy-MM-dd");
@@ -47,7 +47,7 @@ const stylists = [
 ];
 
 const sampleEvents = {
-  "2021-01-01": [
+  "2020-12-31": [
     {
       id: 1,
       description: "Event 1",
@@ -119,7 +119,6 @@ const sampleEvents = {
   "2021-01-02": [
     {
       id: 1,
-      description: "Event 1",
       startDate: generateDate(8),
       endDate: generateDate(8, 30),
       client: {
@@ -226,7 +225,7 @@ const HomeScreen: FC<HomeScreenProps> = () => {
               setSelectedDate(dateString);
             }}
           >
-            <RNWeekView
+            <RNSchedule
               headers={stylists}
               events={sampleEvents[selectedDate] || []}
             />

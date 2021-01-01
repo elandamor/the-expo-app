@@ -18,14 +18,14 @@ export type ItemType = {
   name: string;
 };
 
-interface RNWeekViewProps {
+interface RNScheduleProps {
   headers: ItemType[];
   events: EventType[];
   hoursInDisplay?: number;
   numberOfColumns?: number;
 }
 
-const RNWeekView: FC<RNWeekViewProps> = ({
+const RNSchedule: FC<RNScheduleProps> = ({
   events,
   headers,
   hoursInDisplay,
@@ -168,9 +168,9 @@ const RNWeekView: FC<RNWeekViewProps> = ({
   );
 };
 
-RNWeekView.defaultProps = {
+RNSchedule.defaultProps = {
   events: [],
   hoursInDisplay: 12,
 };
 
-export default RNWeekView;
+export default RNSchedule;
