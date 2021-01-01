@@ -4,8 +4,8 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
-  RefreshControl,
   ScrollView,
+  ScrollViewProps,
   StyleProp,
   StyleSheet,
   View,
@@ -13,33 +13,21 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-interface RNScrollViewProps {
-  enablePullToRefresh?: boolean;
-  refreshing?: boolean;
+interface RNScrollViewProps extends ScrollViewProps {
   styles?: {
     style?: StyleProp<ViewStyle>;
     contentContainerStyle?: StyleProp<ViewStyle>;
     underlayColor?: ColorValue;
   };
-  onRefresh?: () => void;
 }
 
 const RNScrollView: FC<RNScrollViewProps> = ({
-  enablePullToRefresh,
   children,
-  refreshing: controlledRefreshing,
   styles = {},
-  onRefresh,
+  ...rest
 }) => {
   const { bottom } = useSafeAreaInsets();
   const [keyboardOpen, setKeyboardOpen] = useState(false);
-  const [refreshing, setRefreshing] = useState(controlledRefreshing);
-
-  useEffect(() => {
-    if (controlledRefreshing != undefined) {
-      setRefreshing(!!controlledRefreshing);
-    }
-  }, [controlledRefreshing]);
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -72,6 +60,7 @@ const RNScrollView: FC<RNScrollViewProps> = ({
       )}
       <ScrollView
         showsVerticalScrollIndicator={false}
+        {...rest}
         style={[defaultStyles.style, styles.style]}
         contentContainerStyle={[
           defaultStyles.contentContainerStyle,
@@ -84,19 +73,6 @@ const RNScrollView: FC<RNScrollViewProps> = ({
               : 0,
           },
         ]}
-        {...(enablePullToRefresh && {
-          refreshControl: (
-            <RefreshControl
-              refreshing={!!refreshing}
-              onRefresh={() => {
-                if (onRefresh) {
-                  setRefreshing(true);
-                  onRefresh();
-                }
-              }}
-            />
-          ),
-        })}
       >
         {children}
       </ScrollView>
@@ -105,8 +81,6 @@ const RNScrollView: FC<RNScrollViewProps> = ({
 };
 
 RNScrollView.defaultProps = {
-  enablePullToRefresh: false,
-  refreshing: false,
   styles: {
     underlayColor: "transparent",
   },
