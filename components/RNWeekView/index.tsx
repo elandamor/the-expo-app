@@ -80,7 +80,7 @@ const RNWeekView: FC<RNWeekViewProps> = ({
     });
 
     return () => eventsGridScrollX.removeAllListeners();
-  }, []);
+  }, [events]);
 
   return (
     <View style={styles.container}>
@@ -124,7 +124,7 @@ const RNWeekView: FC<RNWeekViewProps> = ({
           }}
         />
       </View>
-      <RNScrollView>
+      <RNScrollView bounces={false}>
         <View style={styles.scrollViewContent}>
           <Times times={times} textStyle={{ color: "#8C8C8C" }} />
           <VirtualizedList
@@ -148,7 +148,7 @@ const RNWeekView: FC<RNWeekViewProps> = ({
             }}
             horizontal
             pagingEnabled
-            scrollEventThrottle={32}
+            scrollEventThrottle={1}
             onScroll={Animated.event(
               [
                 {

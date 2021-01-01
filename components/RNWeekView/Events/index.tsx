@@ -48,19 +48,6 @@ const Events: FC<EventsProps> = ({ numberOfColumns, times, events, item }) => {
       (startMinutes > 0 && endMinutes > 0 ? 5 : heightOffset);
     const width = getEventItemWidth();
 
-    console.log({
-      dateTime,
-      endMinutes,
-      openingHours,
-      deltaMinutes,
-      hoursAfterOpening,
-      startHours,
-      startMinutes,
-      height,
-      width,
-      top,
-    });
-
     return {
       top,
       left: 0,
