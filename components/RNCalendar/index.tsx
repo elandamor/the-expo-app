@@ -12,11 +12,13 @@ import {
 } from "./helpers";
 import defaultStyles from "./styles";
 
+// TODO: Add type safety
+
 const HEADER_HEIGHT = 104;
 const KNOB_HEIGHT = 24;
 
-export default class RNCalendar extends Component {
-  static displayName = "RNCalendar";
+export default class RNCalendarStrip extends Component {
+  static displayName = "RNCalendarStrip";
 
   static propTypes = {
     onDayPress: PropTypes.func,
