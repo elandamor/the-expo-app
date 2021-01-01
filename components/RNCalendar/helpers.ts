@@ -1,6 +1,8 @@
 import { addDays, format, startOfWeek } from "date-fns";
 import XDate from "xdate";
 
+// TODO: Add type safety
+
 export class VelocityTracker {
   constructor() {
     this.history = [];
