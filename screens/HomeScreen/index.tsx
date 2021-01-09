@@ -1,7 +1,7 @@
 import Constants from "expo-constants";
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
-import { RNScrollView, RNTextInput } from "../../components";
+import { RNButton, RNScrollView } from "../../components";
 
 const wait = (timeout: number) => {
   return new Promise((resolve) => {
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: "#DDD",
-    borderBottomRightRadius: 44,
+    borderBottomRightRadius: 24,
     minHeight: 56 + Constants.statusBarHeight,
     width: width,
   },
@@ -27,8 +27,6 @@ const styles = StyleSheet.create({
 interface HomeScreenProps {}
 
 const HomeScreen: FC<HomeScreenProps> = () => {
-  const [refreshing, setRefreshing] = useState(false);
-
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -39,21 +37,60 @@ const HomeScreen: FC<HomeScreenProps> = () => {
         />
       </View>
       <RNScrollView
-        enablePullToRefresh
-        refreshing={refreshing}
         styles={{
-          contentContainerStyle: { padding: 16 },
-          style: { borderTopLeftRadius: 44 },
+          contentContainerStyle: { flexGrow: 1, padding: 16 },
+          style: { borderTopLeftRadius: 24 },
           underlayColor: "#DDD",
-        }}
-        onRefresh={() => {
-          setRefreshing(true);
-          wait(2000).then(() => setRefreshing(false));
         }}
       >
         {[...new Array(10)].map((_, index) => (
-          <RNTextInput key={index} />
+          <View
+            key={index}
+            style={{
+              backgroundColor: "#EEE",
+              borderRadius: 24,
+              height: 200,
+              marginBottom: 16,
+            }}
+          />
         ))}
+
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <RNButton variant="primary" title="" onPress={() => null} />
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              marginTop: 16,
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: "red",
+                height: 32,
+                width: 1,
+              }}
+            />
+          </View>
+
+          <RNButton
+            title=""
+            onPress={() => null}
+            styles={{
+              button: {
+                backgroundColor: "transparent",
+                borderColor: "red",
+                borderWidth: 1,
+              },
+            }}
+          />
+        </View>
       </RNScrollView>
     </View>
   );

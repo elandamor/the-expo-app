@@ -1,6 +1,6 @@
 import { StackNavigationProp } from "@react-navigation/stack";
 import Constants from "expo-constants";
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 import { RNButton, RNScrollView, RNTextInput } from "../../components";
 import { PublicStackParamsList } from "../../navigation";
@@ -40,10 +40,8 @@ interface RegisterScreenProps {
 }
 
 const RegisterScreen: FC<RegisterScreenProps> = ({ navigation }) => {
-  const [value, onChangeText] = useState("");
-
   return (
-    <RNScrollView>
+    <RNScrollView bounces={false}>
       <View style={styles.header}>
         <View
           style={{

@@ -9,6 +9,7 @@ import {
   View,
   ViewStyle,
 } from "react-native";
+import {} from "styled-system";
 
 interface RNButtonProps extends ButtonProps {
   styles?: {
